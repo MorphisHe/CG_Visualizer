@@ -3,6 +3,12 @@ var ctx = canvas.getContext('2d');
 // diction to store points (x, [y]).
 data = new gridData();
 
+// var for connecting 2 points
+var shift = false;
+var point_a;
+var point_b;
+var num_click = 0;
+
 // drawing a grid that fits the browser size fully
 function drawGrid(){
     // resizeing to the height and width of browser
@@ -21,7 +27,7 @@ function drawGrid(){
         }
     }
 
-    ctx.strokeStyle = "#1E90FF";
+    ctx.strokeStyle = "#1E90FF"; // BLUE
     ctx.stroke();
 };
 
@@ -35,8 +41,21 @@ function resizeCanvas(){
 // function to plot a point(x, y)
 function plot(x, y){
     ctx.beginPath();
-    ctx.arc(x, y, 3.5, 0, 2 * Math.PI, true); // x, y, radius
+    ctx.globalAlpha = 1.0;
+    ctx.arc(x, y, 6.0, 0, 2 * Math.PI, true); // x, y, radius
     ctx.fill();
+}
+
+// draw line from point a to b
+function drawLine(a, b)
+{
+    ctx.beginPath();
+    ctx.moveTo(a[0], a[1]);
+    ctx.lineTo(b[0], b[1]);
+    ctx.strokeStyle = "#FF0000"; // red
+    ctx.lineWidth = 3;
+    ctx.globalAlpha = 0.6;
+    ctx.stroke();
 }
 
 // clear whole canvas
@@ -70,14 +89,35 @@ function printMousePos(event) {
     else y = Math.floor((y) / 30) * 30;
 
     // check if point already exist, delete it, else add it
-    if (data.remove(x, y)){
-        redraw();
+    if (!event.shiftKey){ // when not in connecting mode
+        num_click = 0;
+        if (data.removePoint(x, y)){
+            redraw();
+        }else{
+            // draw the point
+            plot(x, y);
+            // add to dictionary
+            data.addPoint(x, y);
+        }
     }else{
-        // draw the point
-        plot(x, y);
-        // add to dictionary
-        data.add(x, y);
+        // connecting mode
+        if (num_click == 0){
+            // first click: init point a
+            num_click = 1;
+            point_a = [x, y];
+        } else if (num_click == 1){
+            // 2nd click: init point b
+            num_click ++;
+            point_b = [x, y];
+            drawLine(point_a, point_b);
+        }else if (num_click == 2){
+            // if didnt stop adding edge, keep adding
+            point_a = point_b;
+            point_b = [x, y];
+            drawLine(point_a, point_b);
+        }
     }
+    
 }
 
 // function to add listeners

@@ -9,14 +9,14 @@ class gridData {
         this.allPoints = {};
     }
 
-    add(key, value){
+    addPoint(key, value){
         if (key in this.allPoints)
             this.allPoints[key].push(value);
         else
             this.allPoints[key] = [value];
     }
 
-    remove(key, value){
+    removePoint(key, value){
         if (key in this.allPoints && this.allPoints[key].includes(value)){
             delete this.allPoints[key][this.allPoints[key].indexOf(value)];
             // if x have no more y, delete x
