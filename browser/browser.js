@@ -1,5 +1,7 @@
 var canvas = document.getElementById("grid");
 var ctx = canvas.getContext('2d');
+// diction to store points (x, [y]).
+data = new gridData();
 
 // drawing a grid that fits the browser size fully
 function drawGrid(){
@@ -30,12 +32,34 @@ function resizeCanvas(){
     drawGrid(); 
 }
 
+// function to plot a point(x, y)
+function plot(x, y){
+    ctx.beginPath();
+    ctx.arc(x, y, 3.5, 0, 2 * Math.PI, true); // x, y, radius
+    ctx.fill();
+}
+
+// clear whole canvas
+function clearCanvas(){
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+}
+
+// redraw table after removing a dot, plot all data in dictionary
+function redraw(){
+    clearCanvas();
+    drawGrid();
+    for (var x in data.allPoints){
+        data.allPoints[x].forEach(function(element) {
+            plot(x, element);
+        });
+    }
+}
+
 // catching mouse click: plot a dot on location of mouse
 // NOTE: canvas cordinate (0, 0) = mouse location (10, 10)
 // we need to convert mouse coordinate to canvas coordinate
 function printMousePos(event) {
     //document.body.textContent = Math.ceil(289);
-    ctx.beginPath();
     x = event.clientX-10; // position of mouse in horizontal axis
     y = event.clientY-10; // position of mouse in vertical axis
 
@@ -45,9 +69,15 @@ function printMousePos(event) {
     if (y%30 >= 15) y = Math.ceil((y) / 30) * 30;
     else y = Math.floor((y) / 30) * 30;
 
-    // document.body.textContent = event.clientX + " " + x + " " + y + " " + event.clientY;
-    ctx.arc(x, y, 3.5, 0, 2 * Math.PI, true); // x, y, radius
-    ctx.fill();
+    // check if point already exist, delete it, else add it
+    if (data.remove(x, y)){
+        redraw();
+    }else{
+        // draw the point
+        plot(x, y);
+        // add to dictionary
+        data.add(x, y);
+    }
 }
 
 // function to add listeners
