@@ -43,6 +43,24 @@ function resizeCanvas(){
     redraw(); 
 }
 
+// clear whole canvas
+function clearCanvas(){
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+}
+
+function clearBoard(){
+    data.clear();
+    clearCanvas();
+    drawGrid();
+}
+
+// redraw table after removing a dot, plot all data in dictionary
+function redraw(){
+    clearCanvas();
+    drawGrid();
+    plotAll();
+}
+
 // function to plot a point(x, y)
 function plot(x, y){
     ctx.beginPath();
@@ -62,21 +80,15 @@ function drawLine(a, b){
     ctx.stroke();
 }
 
-// clear whole canvas
-function clearCanvas(){
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-}
-
-// redraw table after removing a dot, plot all data in dictionary
-function redraw(){
-    clearCanvas();
-    drawGrid();
+// plot all points into the grid
+function plotAll(){
     for (var x in data.allPoints){
         data.allPoints[x].forEach(function(element) {
             plot(x, element);
         });
     }
 }
+
 
 // catching mouse click: plot a dot on location of mouse
 // NOTE: canvas cordinate (0, 0) = mouse location (10, 10)
@@ -129,8 +141,8 @@ function initListeners(){
     // adding listener to resize grid line while browser window resizes
     window.addEventListener('resize', resizeCanvas, false);
 
-    // adding listener to mouse click: plotting a dot on place clicked
     document.addEventListener("click", printMousePos);
+    document.getElementById('startButtonClearBoard').addEventListener("click", clearBoard);
 }
 
 // starting function calls
