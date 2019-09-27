@@ -1,5 +1,9 @@
 var canvas = document.getElementById("grid");
 var ctx = canvas.getContext('2d');
+
+// positioning adjustment
+var epsilon = 30; // grid gap
+
 // diction to store points (x, [y]).
 data = new gridData();
 
@@ -11,17 +15,18 @@ var num_click = 0;
 
 // drawing a grid that fits the browser size fully
 function drawGrid(){
+    //document.body.textContent = document.getElementById("navbarDiv").scrollHeight;
     // resizeing to the height and width of browser
-    w  = window.innerWidth;
+    w = window.innerWidth;
     h = window.innerHeight;
     ctx.canvas.width  = window.innerWidth;
     ctx.canvas.height = window.innerHeight;
     
     // drawing simple grid lines
-    for (x = 0; x <= w; x += 30) {
+    for (x = 0; x <= w; x += epsilon) {
         ctx.moveTo(x, 0);
         ctx.lineTo(x, h);
-        for (y = 0; y <= h; y += 30) {
+        for (y = 0; y <= h; y += epsilon) {
             ctx.moveTo(0, y);
             ctx.lineTo(w, y);
         }
@@ -33,9 +38,9 @@ function drawGrid(){
 
 // redrawing grid to fix the max size of browser while resizing
 function resizeCanvas(){
-    if (canvas.width  < window.innerWidth) canvas.width  = window.innerWidth;
-    if (canvas.height < window.innerHeight) canvas.height = window.innerHeight;
-    drawGrid(); 
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
+    redraw(); 
 }
 
 // function to plot a point(x, y)
@@ -47,8 +52,7 @@ function plot(x, y){
 }
 
 // draw line from point a to b
-function drawLine(a, b)
-{
+function drawLine(a, b){
     ctx.beginPath();
     ctx.moveTo(a[0], a[1]);
     ctx.lineTo(b[0], b[1]);
@@ -78,15 +82,16 @@ function redraw(){
 // NOTE: canvas cordinate (0, 0) = mouse location (10, 10)
 // we need to convert mouse coordinate to canvas coordinate
 function printMousePos(event) {
-    //document.body.textContent = Math.ceil(289);
-    x = event.clientX-10; // position of mouse in horizontal axis
-    y = event.clientY-10; // position of mouse in vertical axis
+    //document.body.textContent = event.clientY;// printing position of mouse click for DEBUG
+    var rect = canvas.getBoundingClientRect(); // size of canvas
+    x = event.clientX - rect.left; // position of mouse in horizontal axis
+    y = event.clientY - rect.top; // position of mouse in vertical axis
 
     // convert x,y to canvas coordinate
-    if (x%30 >= 15) x = Math.ceil((x) / 30) * 30;
-    else x = Math.floor((x) / 30) * 30;
-    if (y%30 >= 15) y = Math.ceil((y) / 30) * 30;
-    else y = Math.floor((y) / 30) * 30;
+    if (x%epsilon >= 15) x = Math.ceil((x) / epsilon) * epsilon;
+    else x = Math.floor((x) / epsilon) * epsilon;
+    if (y%epsilon >= 15) y = Math.ceil((y) / epsilon) * epsilon;
+    else y = Math.floor((y) / epsilon) * epsilon;
 
     // check if point already exist, delete it, else add it
     if (!event.shiftKey){ // when not in connecting mode
@@ -117,7 +122,6 @@ function printMousePos(event) {
             drawLine(point_a, point_b);
         }
     }
-    
 }
 
 // function to add listeners
