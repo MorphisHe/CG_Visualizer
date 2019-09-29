@@ -29,7 +29,7 @@ function drawGrid(){
             ctx.lineTo(w, y);
         }
     }
-
+    //ctx.globalAlpha = 0.2;
     ctx.strokeStyle = "#1E90FF"; // BLUE
     ctx.stroke();
 };
@@ -89,11 +89,11 @@ function plot(p){
 }
 
 // draw line from point p1 to p2
-function drawLine(p1, p2){
+function drawLine(p1, p2, color){
     ctx.beginPath();
     ctx.moveTo(p1[0], p1[1]);
     ctx.lineTo(p2[0], p2[1]);
-    ctx.strokeStyle = "#FF0000"; // red
+    ctx.strokeStyle = color;
     ctx.lineWidth = 3;
     ctx.globalAlpha = 0.6;
     ctx.stroke();
@@ -111,7 +111,7 @@ function plotAll(){
 // draw all edges
 function drawAllEdges(){
     data.allEdges.forEach(edge =>{
-        drawLine([edge.x1, edge.y1], [edge.x2, edge.y2])
+        drawLine([edge.x1, edge.y1], [edge.x2, edge.y2], "#FF0000"); // red color
     })
 }
 
@@ -138,7 +138,7 @@ function handleMouseMove(event){
     if (!mouseDown) return;
     redraw();
     // draw the current lines
-    drawLine(saved_point, parseMouseC());
+    drawLine(saved_point, parseMouseC(), "#32CD32"); // limegreen
 }
 
 // when mouse is up and there is a point, draw a line
@@ -147,7 +147,7 @@ function handleMouseUp(e){
     if (mouseDown && !data.comparePoints(saved_point, upCoordinate)){
         // connecting mode
         if (data.containPoint(upCoordinate)){
-            drawLine(saved_point, upCoordinate); // draw the edge
+            drawLine(saved_point, upCoordinate, "#32CD32"); // draw the edge, limegreen
             data.addEdge(saved_point, upCoordinate); // add edge to grid data
         }else{
             // refresh the grid without changing the data
