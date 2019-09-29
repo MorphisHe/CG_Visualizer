@@ -12,7 +12,7 @@ class gridData {
     }
 
     clearEdges(){
-        this.addEdge = [];
+        this.allEdges = [];
     }
 
     // add point p to grid data.

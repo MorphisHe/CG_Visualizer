@@ -61,6 +61,11 @@ function redraw(){
     drawAllEdges();
 }
 
+function clearAllEdges(){
+    data.clearEdges();
+    redraw();
+}
+
 // parse mouse coordinate
 function parseMouseC(){
     rect = canvas.getBoundingClientRect(); // size of canvas
@@ -161,6 +166,7 @@ function initListeners(){
     // adding listener to resize grid line while browser window resizes
     window.addEventListener('resize', resizeCanvas, false);
     document.getElementById('startButtonClearBoard').addEventListener("click", clearBoard);
+    document.getElementById('startButtonClearEdges').addEventListener("click", clearAllEdges);
     
     // drag events
     // when mouse is hold starting a place with a existing point,
