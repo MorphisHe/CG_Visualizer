@@ -21,15 +21,21 @@ function drawGrid(){
     ctx.canvas.height = window.innerHeight;
     
     // drawing simple grid lines
-    for (x = 0; x <= w; x += epsilon) {
+    x = 0;
+    y = 0;
+    while (x <= w || y <= h){
+        // draw vertical line
         ctx.moveTo(x, 0);
         ctx.lineTo(x, h);
-        for (y = 0; y <= h; y += epsilon) {
-            ctx.moveTo(0, y);
-            ctx.lineTo(w, y);
-        }
+        // draw horizontal line
+        ctx.moveTo(0, y);
+        ctx.lineTo(w, y);
+        // increment by grid gap
+        x += epsilon;
+        y += epsilon;
     }
-    //ctx.globalAlpha = 0.2;
+
+    ctx.globalAlpha = 0.5;
     ctx.strokeStyle = "#1E90FF"; // BLUE
     ctx.stroke();
 };
