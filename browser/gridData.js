@@ -15,6 +15,8 @@ class gridData {
         this.allEdges = [];
     }
 
+/** ============================================ Points ========================================= */
+
     // add point p to grid data.
     // p[0] = x = key
     addPoint(p){
@@ -25,6 +27,7 @@ class gridData {
     }
 
     // remove a point from grid data
+    // also removes the edges that connects the line
     removePoint(p){
         if (p[0] in this.allPoints && this.allPoints[p[0]].includes(p[1])){
             delete this.allPoints[p[0]][this.allPoints[p[0]].indexOf(p[1])];
@@ -43,18 +46,13 @@ class gridData {
     }
 
     // check if point p is in grid
-    contain(p){
+    containPoint(p){
         return (p[0] in this.allPoints && this.allPoints[p[0]].includes(p[1]));
     }
 
-    // assume point x and y exist, add edge to them
-    addEdge(x, y){
-        this.allEdges.push({
-            x1 : x[0],
-            y1 : x[1],
-            x2 : y[0],
-            y2 : y[1]
-        });
+    // compare if 2 point is same
+    comparePoints(p1, p2){
+        return ((p1[0] == p2[0]) && (p1[1] == p2[1]));
     }
 
     // print all points
@@ -68,16 +66,32 @@ class gridData {
         }
     }
 
-    // compare if 2 point is same
-    compare(p1, p2){
-        return ((p1[0] == p2[0]) && (p1[1] == p2[1]));
+/** ============================================ Edges ========================================= */
+
+    // assume point p1 and p2 exist, add edge to them
+    addEdge(p1, p2){
+        this.allEdges.push({
+            x1 : p1[0],
+            y1 : p1[1],
+            x2 : p2[0],
+            y2 : p2[1]
+        });
     }
 
-    // removeEdge(x, y){
+    // remove all edges that connects to point p
+    removeEdges(p){
+        this.allEdges.forEach(curEdge =>{
+            if ((curEdge.x1 == p[0] && curEdge.y1 == p[1]) ||
+                (curEdge.x2 == p[0] && curEdge.y2 == p[1])){
+                    delete this.allEdges[this.allEdges.indexOf(curEdge)];
+                }
+        })
+    }
 
-    // }
 
-    // connected(x, y){
 
-    // }
+
+
+
+
 }

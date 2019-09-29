@@ -1,6 +1,5 @@
 var canvas = document.getElementById("grid");
 var ctx = canvas.getContext('2d');
-var counter = 0;
 
 // positioning adjustment
 var epsilon = 30; // grid gap, controlls grid size
@@ -117,14 +116,15 @@ function drawAllEdges(){
 }
 
 
-// catching mouse click: plot a dot on location of mouse
-// NOTE: canvas cordinate (0, 0) = mouse location (10, 10)
-// we need to convert mouse coordinate to canvas coordinate
-// remove the point if there is already one
+
+// plot or remove a point with mouse click
+// if removing a point, also remove all edges connecting to that point
 function plotOrRemove(p) {
     // check if point already exist, delete it, else add it
-    if (data.removePoint(p))
+    if (data.removePoint(p)){
+        data.removeEdges(p);
         redraw();
+    }
     else{
         // draw the point
         plot(p);
@@ -144,9 +144,9 @@ function handleMouseMove(event){
 // when mouse is up and there is a point, draw a line
 function handleMouseUp(e){
     upCoordinate = parseMouseC(); // get (x, y) where mouse is 
-    if (mouseDown && !data.compare(saved_point, upCoordinate)){
+    if (mouseDown && !data.comparePoints(saved_point, upCoordinate)){
         // connecting mode
-        if (data.contain(upCoordinate)){
+        if (data.containPoint(upCoordinate)){
             drawLine(saved_point, upCoordinate); // draw the edge
             data.addEdge(saved_point, upCoordinate); // add edge to grid data
         }else{
@@ -154,7 +154,7 @@ function handleMouseUp(e){
             redraw();
         }
     }else{
-        // plot the point at mouseDown spot
+        // plot the point at mouseDown spot or remove if it already exist
         plotOrRemove(saved_point);
     }
 
@@ -173,7 +173,7 @@ function initListeners(){
     // set mouseDown to true, and init the points
     $("#grid").mousedown(function (event) {
         saved_point = parseMouseC();
-        if (data.contain(saved_point)){
+        if (data.containPoint(saved_point)){
             mouseDown = true;
         }
     });
