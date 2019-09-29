@@ -1,17 +1,16 @@
 var canvas = document.getElementById("grid");
 var ctx = canvas.getContext('2d');
+var counter = 0;
 
 // positioning adjustment
-var epsilon = 30; // grid gap
+var epsilon = 30; // grid gap, controlls grid size
 
 // diction to store points (x, [y]).
 data = new gridData();
 
 // var for connecting 2 points
-var shift = false;
-var point_a;
-var point_b;
-var num_click = 0;
+var mouseDown = false; // true when in drawing edge mode
+var saved_point;
 
 // drawing a grid that fits the browser size fully
 function drawGrid(){
@@ -59,43 +58,12 @@ function redraw(){
     clearCanvas();
     drawGrid();
     plotAll();
+    drawAllEdges();
 }
 
-// function to plot a point(x, y)
-function plot(x, y){
-    ctx.beginPath();
-    ctx.globalAlpha = 1.0;
-    ctx.arc(x, y, 6.0, 0, 2 * Math.PI, true); // x, y, radius
-    ctx.fill();
-}
-
-// draw line from point a to b
-function drawLine(a, b){
-    ctx.beginPath();
-    ctx.moveTo(a[0], a[1]);
-    ctx.lineTo(b[0], b[1]);
-    ctx.strokeStyle = "#FF0000"; // red
-    ctx.lineWidth = 3;
-    ctx.globalAlpha = 0.6;
-    ctx.stroke();
-}
-
-// plot all points into the grid
-function plotAll(){
-    for (var x in data.allPoints){
-        data.allPoints[x].forEach(function(element) {
-            plot(x, element);
-        });
-    }
-}
-
-
-// catching mouse click: plot a dot on location of mouse
-// NOTE: canvas cordinate (0, 0) = mouse location (10, 10)
-// we need to convert mouse coordinate to canvas coordinate
-function printMousePos(event) {
-    //document.body.textContent = event.clientY;// printing position of mouse click for DEBUG
-    var rect = canvas.getBoundingClientRect(); // size of canvas
+// parse mouse coordinate
+function parseMouseC(){
+    rect = canvas.getBoundingClientRect(); // size of canvas
     x = event.clientX - rect.left; // position of mouse in horizontal axis
     y = event.clientY - rect.top; // position of mouse in vertical axis
 
@@ -105,44 +73,112 @@ function printMousePos(event) {
     if (y%epsilon >= 15) y = Math.ceil((y) / epsilon) * epsilon;
     else y = Math.floor((y) / epsilon) * epsilon;
 
+    return [x,y];
+}
+
+// function to plot a point p
+function plot(p){
+    ctx.beginPath();
+    ctx.globalAlpha = 1.0;
+    ctx.arc(p[0], p[1], 6.0, 0, 2 * Math.PI, true); // x, y, radius
+    ctx.fill();
+}
+
+// draw line from point p1 to p2
+function drawLine(p1, p2){
+    ctx.beginPath();
+    ctx.moveTo(p1[0], p1[1]);
+    ctx.lineTo(p2[0], p2[1]);
+    ctx.strokeStyle = "#FF0000"; // red
+    ctx.lineWidth = 3;
+    ctx.globalAlpha = 0.6;
+    ctx.stroke();
+}
+
+// plot all points into the grid
+function plotAll(){
+    for (var x in data.allPoints){
+        data.allPoints[x].forEach(function(y) {
+            plot([x, y]);
+        });
+    }
+}
+
+// draw all edges
+function drawAllEdges(){
+    data.allEdges.forEach(edge =>{
+        drawLine([edge.x1, edge.y1], [edge.x2, edge.y2])
+    })
+}
+
+
+// catching mouse click: plot a dot on location of mouse
+// NOTE: canvas cordinate (0, 0) = mouse location (10, 10)
+// we need to convert mouse coordinate to canvas coordinate
+// remove the point if there is already one
+function plotOrRemove(p) {
     // check if point already exist, delete it, else add it
-    if (!event.shiftKey){ // when not in connecting mode
-        num_click = 0;
-        if (data.removePoint(x, y)){
-            redraw();
+    if (data.removePoint(p))
+        redraw();
+    else{
+        // draw the point
+        plot(p);
+        // add to dictionary
+        data.addPoint(p);
+    }
+}
+
+// when mouse is down, and is moving, this will drag a line
+function handleMouseMove(event){
+    if (!mouseDown) return;
+    redraw();
+    // draw the current lines
+    drawLine(saved_point, parseMouseC());
+}
+
+// when mouse is up and there is a point, draw a line
+function handleMouseUp(e){
+    upCoordinate = parseMouseC(); // get (x, y) where mouse is 
+    if (mouseDown && !data.compare(saved_point, upCoordinate)){
+        // connecting mode
+        if (data.contain(upCoordinate)){
+            drawLine(saved_point, upCoordinate); // draw the edge
+            data.addEdge(saved_point, upCoordinate); // add edge to grid data
         }else{
-            // draw the point
-            plot(x, y);
-            // add to dictionary
-            data.addPoint(x, y);
+            // refresh the grid without changing the data
+            redraw();
         }
     }else{
-        // connecting mode
-        if (num_click == 0){
-            // first click: init point a
-            num_click = 1;
-            point_a = [x, y];
-        } else if (num_click == 1){
-            // 2nd click: init point b
-            num_click ++;
-            point_b = [x, y];
-            drawLine(point_a, point_b);
-        }else if (num_click == 2){
-            // if didnt stop adding edge, keep adding
-            point_a = point_b;
-            point_b = [x, y];
-            drawLine(point_a, point_b);
-        }
+        // plot the point at mouseDown spot
+        plotOrRemove(saved_point);
     }
+
+    mouseDown = false;
 }
 
 // function to add listeners
 function initListeners(){
     // adding listener to resize grid line while browser window resizes
     window.addEventListener('resize', resizeCanvas, false);
-
-    document.addEventListener("click", printMousePos);
     document.getElementById('startButtonClearBoard').addEventListener("click", clearBoard);
+    
+    // drag events
+    // when mouse is hold starting a place with a existing point,
+    // set mouseDown to true, and init the points
+    $("#grid").mousedown(function (event) {
+        saved_point = parseMouseC();
+        if (data.contain(saved_point)){
+            mouseDown = true;
+        }
+    });
+
+    $("#grid").mousemove(function (e) {
+        handleMouseMove(e);
+    });
+
+    $("#grid").mouseup(function (e) {
+        handleMouseUp(e);
+    });
 }
 
 // starting function calls
