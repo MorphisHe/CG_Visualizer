@@ -6,7 +6,7 @@ class jsTPS {
     undo_transactions = []; // stack of transactions to undo
     redo_transactions = []; // stack if transactions to redo
 
-    clearAll() {
+    clearAllTransactions() {
         this.transcations = [];
     }
 
