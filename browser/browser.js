@@ -16,6 +16,9 @@ transactions = new jsTPS();
 var mouseDown = false; // true when in drawing edge mode
 var saved_point;
 
+// used for debugging
+debug_counter = 0;
+
 // drawing a grid that fits the browser size fully
 function drawGrid() {
     // resizeing to the height and width of browser
@@ -42,7 +45,7 @@ function drawGrid() {
     ctx.globalAlpha = 0.5;
     ctx.strokeStyle = "#1E90FF"; // BLUE
     ctx.stroke();
-};
+}
 
 // redrawing grid to fix the max size of browser while resizing
 function resizeCanvas() {
@@ -100,6 +103,7 @@ function plot(p) {
 
 // draw line from point p1 to p2
 function drawLine(p1, p2, color) {
+    ctx.globalCompositeOperation = 'destination-over'; // mode: line wont overlap dot
     ctx.beginPath();
     ctx.moveTo(p1[0], p1[1]);
     ctx.lineTo(p2[0], p2[1]);
@@ -164,7 +168,8 @@ function handleMouseUp(e) {
         }
     } else {
         // plot the point at mouseDown spot or remove if it already exist
-        plotOrRemove(saved_point);
+        plotTransaction = new addPoint_Transaction(saved_point);
+        plotTransaction.doTransaction();
     }
 
     mouseDown = false;
