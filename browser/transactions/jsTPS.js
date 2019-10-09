@@ -5,7 +5,7 @@
 class jsTPS {
     undo_transactions = []; // stack of transactions to undo
     redo_transactions = []; // stack if transactions to redo
-    MAX_STACK = 20; // only allowing 20 in each stack
+    MAX_STACK = 40; // only allowing 20 in each stack
 
     clearAllTransactions() {
         this.undo_transactions = [];

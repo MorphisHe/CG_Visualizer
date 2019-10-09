@@ -88,6 +88,16 @@ class gridData {
         })
     }
 
+    // remove only 1 specific edge from p1 to p2
+    removeSpecificEdge(p1, p2){
+        this.allEdges.forEach(curEdge =>{
+            if ((curEdge.x1 == p1[0] && curEdge.y1 == p1[1]) &&
+                (curEdge.x2 == p2[0] && curEdge.y2 == p2[1])){
+                    delete this.allEdges[this.allEdges.indexOf(curEdge)];
+                }
+        })
+    }
+
 
 
 

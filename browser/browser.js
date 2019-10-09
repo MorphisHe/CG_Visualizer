@@ -89,8 +89,9 @@ function handleMouseUp(e) {
     if (mouseDown && !data.comparePoints(saved_point, upCoordinate)) {
         // connecting mode
         if (data.containPoint(upCoordinate)) {
-            drawLine(saved_point, upCoordinate, "#32CD32"); // draw the edge, limegreen
-            data.addEdge(saved_point, upCoordinate); // add edge to grid data
+            drawEdge_transaction = new drawEdge_Transaction(saved_point, upCoordinate, "#32CD32");
+            transactions.addTransaction(drawEdge_transaction);
+            drawEdge_transaction.doTransaction(); // draw the edge, limegreen and add edge to grid data
         } else {
             // refresh the grid without changing the data
             redraw();
@@ -99,7 +100,7 @@ function handleMouseUp(e) {
         // plot the point at mouseDown spot or remove if it already exist
         plotTransaction = new addPoint_Transaction(saved_point);
         transactions.addTransaction(plotTransaction);
-        plotTransaction.doTransaction();
+        plotTransaction.doTransaction(); // plot the point and add to grid data
     }
 
     mouseDown = false;
