@@ -3,56 +3,47 @@
 
 <head>
     <title>CG Visualizer</title>
-    <!-- <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"> -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
     <link id="cssTheme" rel="stylesheet" type="text/css" href="styling/mainCss.css" />
-   
-    <!-- Bootstrap CSS CDN -->
-    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous"> -->
-    <!-- Font Awesome JS -->
-    <!-- <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
-    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script> -->
 </head>
 
 <body>
     <div id="navbarDiv">
         <nav class="navbar navbar-inverse">
+            <!--background of navbar-->
             <div class="container-fluid">
                 <div class="navbar-header">
-                    <a id="refreshButton" class="navbar-brand" href="#">Computation Geometry Visualizer</a
-            >
-          </div>
-          <ul class="nav navbar-nav">
-            <li class="dropdown">
-              <a class="dropdown-toggle" data-toggle="dropdown" href="#"
-                >Algorithms <span class="caret"></span
-              ></a>
-                    <ul class="dropdown-menu">
-                        <li id="startButtonDijkstra">
-                            <a href="#">Dijkstra's Algorithm</a>
-                        </li>
-                        <li id="startButtonAStar2"><a href="#">A* Search</a></li>
-                        <li id="startButtonGreedy">
-                            <a href="#">Greedy Best-first Search</a>
-                        </li>
-                        <li id="startButtonAStar"><a href="#">Swarm Algorithm</a></li>
-                        <li id="startButtonAStar3">
-                            <a href="#">Convergent Swarm Algorithm</a>
-                        </li>
-                        <li id="startButtonBidirectional">
-                            <a href="#">Bidirectional Swarm Algorithm</a>
-                        </li>
-                        <li id="startButtonBFS">
-                            <a href="#">Breadth-first Search</a>
-                        </li>
-                        <li id="startButtonDFS"><a href="#">Depth-first Search</a></li>
-                    </ul>
-                    </li>
+                    <a id="refreshButton" class="navbar-brand" href="#">Computation Geometry Visualizer</a>
+                </div>
+                <ul class="nav navbar-nav">
                     <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Generate Random Polygon <span class="caret"></span
-              ></a>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Algorithms <span
+                                class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li id="startButtonDijkstra">
+                                <a href="#">Dijkstra's Algorithm</a>
+                            </li>
+                            <li id="startButtonAStar2"><a href="#">A* Search</a></li>
+                            <li id="startButtonGreedy">
+                                <a href="#">Greedy Best-first Search</a>
+                            </li>
+                            <li id="startButtonAStar"><a href="#">Swarm Algorithm</a></li>
+                            <li id="startButtonAStar3">
+                                <a href="#">Convergent Swarm Algorithm</a>
+                            </li>
+                            <li id="startButtonBidirectional">
+                                <a href="#">Bidirectional Swarm Algorithm</a>
+                            </li>
+                            <li id="startButtonBFS">
+                                <a href="#">Breadth-first Search</a>
+                            </li>
+                            <li id="startButtonDFS"><a href="#">Depth-first Search</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Generate Random Polygon <span
+                                class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li id="startButtonCreateMazeTwo">
                                 <a href="#">Recursive Division</a>
@@ -77,8 +68,8 @@
                     <li id="startButtonAddObject"><a href="#">Generate Random Points</a></li>
                     <li id="startButtonStart">
                         <button id="actualStartButton" class="btn btn-default navbar-btn" type="button">
-                Visualize!
-              </button>
+                            Visualize!
+                        </button>
                     </li>
                     <li id="startButtonClearBoard"><a href="#">Clear Board</a></li>
                     <li id="startButtonClearEdges">
@@ -86,33 +77,27 @@
                     </li>
                     <li id="startButtonClearPoints"><a href="#">Clear Points</a></li>
                     <li class="dropdown">
-                        <a id="adjustSpeed" class="dropdown-toggle" data-toggle="dropdown" href="#">Speed: Fast <span class="caret"></span
-              ></a>
+                        <a id="adjustSpeed" class="dropdown-toggle" data-toggle="dropdown" href="#">Speed: Fast <span
+                                class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li id="adjustFast"><a href="#">Fast</a></li>
                             <li id="adjustAverage"><a href="#">Average</a></li>
                             <li id="adjustSlow"><a href="#">Slow</a></li>
                         </ul>
                     </li>
-                    </ul>
-                </div>
+                </ul>
+            </div>
         </nav>
-        </div>
-        
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-        <!-- jQuery CDN - Slim version (=without AJAX)
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-        <!-- Popper.JS -->
-        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script> -->
-        <!-- Bootstrap JS -->
-        <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script> -->
-        
-        <canvas id="grid"></canvas> 
-        <script src="browser/gridData.js"></script>      
-        <script src="browser/jsTPS.js"></script>
-        <script src="browser/transactions/addPoint_Transaction.js"></script>
-        <script src="browser/browser.js"></script>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <canvas id="grid"></canvas>
+    <script src="browser/gridData.js"></script>
+    <script src="browser/jsTPS.js"></script>
+    <script src="browser/transactions/addPoint_Transaction.js"></script>
+    <script src="browser/browser.js"></script>
 </body>
 
 </html>
