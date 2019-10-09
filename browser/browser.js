@@ -98,10 +98,21 @@ function handleMouseUp(e) {
     } else {
         // plot the point at mouseDown spot or remove if it already exist
         plotTransaction = new addPoint_Transaction(saved_point);
+        transactions.addTransaction(plotTransaction);
         plotTransaction.doTransaction();
     }
 
     mouseDown = false;
+}
+
+// function when undo is pressed
+function undo(){
+    transactions.popUndoTransaction().undoTransaction();
+}
+
+// function when undo is pressed
+function redo(){
+    transactions.popRedoTransaction().doTransaction();
 }
 
 // function to add listeners
@@ -110,6 +121,10 @@ function initListeners() {
     window.addEventListener('resize', resizeCanvas, false);
     document.getElementById('startButtonClearBoard').addEventListener("click", clearBoard);
     document.getElementById('startButtonClearEdges').addEventListener("click", clearAllEdges);
+
+    // CHANGE: testsing event listeners for undo redo
+    document.getElementById('startButtonAddObject').addEventListener("click", undo);
+    document.getElementById('startButtonClearPoints').addEventListener("click", redo);
 
     // drag events
     // when mouse is hold starting a place with a existing point,

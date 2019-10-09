@@ -8,22 +8,23 @@ class jsTPS {
     MAX_STACK = 20; // only allowing 20 in each stack
 
     clearAllTransactions() {
-        this.transcations = [];
+        this.undo_transactions = [];
+        this.redo_transactions = [];
     }
 
     // push the new transaction to the top of the stack
     addTransaction(jsTPS_Transaction) {
-        if (this.undo_transactions.legnth == this.MAX_STACK)
+        if (this.undo_transactions.length == this.MAX_STACK)
             this.undo_transactions.shift(); // remove the bottom stack to maintain 20 elements
-        this.undo_transcations.push(jsTPS_Transaction);
+        this.undo_transactions.push(jsTPS_Transaction);
     }
 
     // pop the transaction at the top of the undo stack
     // and add it to top of redo stack
     popUndoTransaction() {
         if (this.undo_transactions.length != 0) {
-            curTransaction = this.undo_transactions.pop();
-            if (this.redo_transactions.legnth == this.MAX_STACK)
+            var curTransaction = this.undo_transactions.pop();
+            if (this.redo_transactions.length == this.MAX_STACK)
                 this.redo_transactions.shift(); // remove the bottom stack to maintain 20 elements
             this.redo_transactions.push(curTransaction);
             return curTransaction;
@@ -34,7 +35,7 @@ class jsTPS {
     // and add it to top of undo stack
     popRedoTransaction() {
         if (this.redo_transactions.length != 0) {
-            curTransaction = this.redo_transactions.pop();
+            var curTransaction = this.redo_transactions.pop();
             this.addTransaction(curTransaction);
             return curTransaction;
         }
