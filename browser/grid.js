@@ -6,6 +6,10 @@ var canvas = document.getElementById("grid");
 var ctx = canvas.getContext('2d');
 var epsilon = 30; // positioning adjustment. grid gap, controlls grid size
 
+// recording the previous edge drawn when drawing a new edge. 
+//The is for visualization purpose. when undo last edge always green.
+var lastEdgeDrawn;
+
 
 // drawing a grid that fits the browser size fully
 function drawGrid() {

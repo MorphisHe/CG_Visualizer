@@ -89,9 +89,10 @@ function handleMouseUp(e) {
     if (mouseDown && !data.comparePoints(saved_point, upCoordinate)) {
         // connecting mode
         if (data.containPoint(upCoordinate)) {
-            drawEdge_transaction = new drawEdge_Transaction(saved_point, upCoordinate, "#32CD32");
+            drawEdge_transaction = new drawEdge_Transaction(saved_point, upCoordinate, "#32CD32", lastEdgeDrawn);
             transactions.addTransaction(drawEdge_transaction);
             drawEdge_transaction.doTransaction(); // draw the edge, limegreen and add edge to grid data
+            lastEdgeDrawn = [saved_point, upCoordinate]; // record the last drawn edge for visualization purpose.
         } else {
             // refresh the grid without changing the data
             redraw();
