@@ -47,16 +47,19 @@ function drawAllEdges() {
 
 // plot or remove a point with mouse click
 // if removing a point, also remove all edges connecting to that point
+// returns the edges removed result by removing the point if in delete mode
 function plotOrRemove(p) {
     // check if point already exist, delete it, else add it
     if (data.removePoint(p)) {
-        data.removeEdges(p);
+        edgesRemoved = data.removeEdges(p);
         redraw();
+        return edgesRemoved;
     } else {
         // draw the point
         plot(p);
         // add to dictionary
         data.addPoint(p);
+        return [];
     }
 }
 
@@ -99,21 +102,20 @@ function handleMouseUp(e) {
         }
     } else {
         // plot the point at mouseDown spot or remove if it already exist
-        plotTransaction = new addPoint_Transaction(saved_point);
+        plotTransaction = new addPoint_Transaction(saved_point, plotOrRemove(saved_point), lastEdgeDrawn);
         transactions.addTransaction(plotTransaction);
-        plotTransaction.doTransaction(); // plot the point and add to grid data
     }
 
     mouseDown = false;
 }
 
 // function when undo is pressed
-function undo(){
+function undo() {
     transactions.popUndoTransaction().undoTransaction();
 }
 
 // function when undo is pressed
-function redo(){
+function redo() {
     transactions.popRedoTransaction().doTransaction();
 }
 
