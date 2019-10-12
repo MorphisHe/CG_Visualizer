@@ -102,7 +102,7 @@ function handleMouseUp(e) {
         }
     } else {
         // plot the point at mouseDown spot or remove if it already exist
-        plotTransaction = new addPoint_Transaction(saved_point, plotOrRemove(saved_point), lastEdgeDrawn);
+        plotTransaction = new addPoint_Transaction(saved_point, plotOrRemove(saved_point));
         transactions.addTransaction(plotTransaction);
     }
 
