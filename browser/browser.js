@@ -120,12 +120,18 @@ function redo() {
     transactions.popRedoTransaction().doTransaction();
 }
 
+// function to refresh the window
+function refresh() {
+    location.reload();
+}
+
 // function to add listeners
 function initListeners() {
-    // adding listener to resize grid line while browser window resizes
+    // general listeners
     window.addEventListener('resize', resizeCanvas, false);
     document.getElementById('startButtonClearBoard').addEventListener("click", clearBoard);
     document.getElementById('startButtonClearEdges').addEventListener("click", clearAllEdges);
+    document.getElementById('refreshButton').addEventListener('click', refresh);
 
     // CHANGE: testsing event listeners for undo redo
     document.getElementById('startButtonAddObject').addEventListener("click", undo);
