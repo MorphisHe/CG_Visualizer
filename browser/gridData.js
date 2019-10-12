@@ -96,11 +96,26 @@ class gridData {
             if (
                 curEdge.x1 == p1[0] &&
                 curEdge.y1 == p1[1] &&
-                (curEdge.x2 == p2[0] && curEdge.y2 == p2[1])
+                curEdge.x2 == p2[0] &&
+                curEdge.y2 == p2[1]
             ) {
                 delete this.allEdges[this.allEdges.indexOf(curEdge)];
             }
         });
+    }
+
+    // e is a edge formed by p1, p2 in this format [p1, p2]
+    // check to see such edge exist
+    containEdge(e) {
+        this.allEdges.forEach(curEdge => {
+            if (
+                curEdge.x1 == e[0][0] &&
+                curEdge.y1 == e[0][1] &&
+                curEdge.x2 == e[1][0] &&
+                curEdge.y2 == e[1][1]
+            ) return true;
+        });
+        return false;
     }
 
     // print all edge in e
