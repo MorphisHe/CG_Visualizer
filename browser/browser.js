@@ -20,6 +20,7 @@ debug_counter = 0;
 
 function clearBoard() {
     data.clear();
+    transactions.clearAllTransactions();
     clearCanvas();
     drawGrid();
 }
