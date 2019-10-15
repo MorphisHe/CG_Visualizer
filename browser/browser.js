@@ -134,8 +134,8 @@ function initListeners() {
     document.getElementById('refreshButton').addEventListener('click', refresh);
 
     // CHANGE: testsing event listeners for undo redo
-    document.getElementById('startButtonAddObject').addEventListener("click", undo);
-    document.getElementById('startButtonClearPoints').addEventListener("click", redo);
+    document.getElementsByClassName('tools-btn-undo')[0].addEventListener("click", undo);
+    document.getElementsByClassName('tools-btn-redo')[0].addEventListener("click", redo);
 
     // drag events
     // when mouse is hold starting a place with a existing point,

@@ -34,12 +34,10 @@ body {
 
 
 /* container fluid */
-.navbar .container, .navbar .container-fluid {
+.navbar .container-fluid {
   padding-left: 50px;
   padding-right: 0px;
 }
-
-
 
 /* navbar brand */
 .navbar-inverse .navbar-brand {
@@ -66,7 +64,12 @@ body {
   background-color: #1abc9c;
 }
 
-
+/* navbar hover effect */
+.navbar-inverse .navbar-nav > li > a:hover,
+.navbar-inverse .navbar-nav > li > a:focus {
+    background-color: transparent;
+    color: #1abc9c;
+}
 
 /* dropdown menu : items on dropdown*/
 .navbar-nav > li > .dropdown-menu {
@@ -114,7 +117,7 @@ body {
 }
 .btn {
   border: none;
-  font-size: 15px;
+  font-size: 20px;
   font-weight: normal;
   line-height: 1.4;
   border-radius: 4px;
@@ -122,11 +125,25 @@ body {
   -webkit-font-smoothing: subpixel-antialiased;
   transition: border 0.25s linear, color 0.25s linear, background-color 0.25s linear;
 }
-.navbar-inverse .navbar-nav > li > a:hover,
-.navbar-inverse .navbar-nav > li > a:focus {
-    background-color: transparent;
-    color: #1abc9c;
+
+/* Navbar top hbox */
+.navbar-tophbox {
+  margin-left:50px;
 }
 
-
+/* Style undo buttons */
+.tools-btn-undo, .tools-btn-redo {
+  background-color: #34495e; /* Blue background */
+  border: none; /* Remove borders */
+  color: white; /* White text */
+  margin-top: 11px;
+  font-size: 16px; /* Set a font size */
+  border-radius: 4px;
+  padding: 6px 10px;
+  line-height: 1.5;
+}
+.tools-btn-undo:hover, 
+.tools-btn-redo:hover {
+  color: #1abc9c;
+}
 
