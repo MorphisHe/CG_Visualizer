@@ -1,4 +1,5 @@
 /* 
+vertex will be a linked list like data structure
 this class will be represent a vertex with contain data of following:
       - coordinates
       - index
