@@ -133,9 +133,12 @@ function initListeners() {
     document.getElementById('startButtonClearEdges').addEventListener("click", clearAllEdges);
     document.getElementById('refreshButton').addEventListener('click', refresh);
 
-    // CHANGE: testsing event listeners for undo redo
+    // event listeners for undo redo
     document.getElementsByClassName('tools-btn-undo')[0].addEventListener("click", undo);
     document.getElementsByClassName('tools-btn-redo')[0].addEventListener("click", redo);
+
+    // CHANGE: Testing for cg functions
+    document.getElementById('actualStartButton').addEventListener("click", testCompute);
 
     // drag events
     // when mouse is hold starting a place with a existing point,
