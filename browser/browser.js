@@ -125,6 +125,11 @@ function refresh() {
     location.reload();
 }
 
+// testing function
+function test() {
+    data.zipPointEdge();
+}
+
 // function to add listeners
 function initListeners() {
     // general listeners
@@ -138,7 +143,7 @@ function initListeners() {
     document.getElementsByClassName('tools-btn-redo')[0].addEventListener("click", redo);
 
     // CHANGE: Testing for cg functions
-    document.getElementById('actualStartButton').addEventListener("click", testCompute);
+    document.getElementById('actualStartButton').addEventListener("click", test);
 
     // drag events
     // when mouse is hold starting a place with a existing point,

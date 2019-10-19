@@ -10,8 +10,8 @@
  * @param {*} p3 point in [x, y] format
  */
 function area2(p1, p2, p3) {
-    return (p2[0] - p1[0]) * (p3[1] - p1[1]) - 
-           (p3[0] - p1[0]) * (p2[1] - p1[1]);
+    return (p2[0] - p1[0]) * (p3[1] - p1[1]) -
+        (p3[0] - p1[0]) * (p2[1] - p1[1]);
 }
 
 /**
@@ -19,11 +19,11 @@ function area2(p1, p2, p3) {
  * all vertices
  * @param {vertex} startingV vertex object that represent the starting point of polygon
  */
-function areaPoly2(startingVtx){
+function areaPoly2(startingVtx) {
     var sum = 0;
     var nextVtx = startingVtx.nextV;
 
-    while (nextVtx != startingVtx){
+    while (nextVtx != startingVtx) {
         sum += area2(startingVtx.coordinate, nextVtx.coordinate, nextVtx.nextV.coordinate);
         nextVtx = nextVtx.nextV;
     }

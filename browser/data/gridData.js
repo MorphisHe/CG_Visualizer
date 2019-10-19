@@ -63,6 +63,32 @@ class gridData {
         }
     }
 
+    // return array of points in 2d format [[x1,y2], [x2,y2], ..... , [xn, yn]]
+    points2D() {
+        var p2d = [];
+        for (var x in this.allPoints) {
+            this.allPoints[x].forEach(y => {
+                p2d.push([x, y]);
+            })
+        }
+        return p2d;
+    }
+
+    // helper function to sort 2d points in y decending form
+    // return 1 means p1 should be before p2
+    // return -1 means p2 should be before p1
+    compare2DPoints(p1, p2) {
+        if (this.comparePoints(p1, p2)) return 0; // same point
+        else {
+            return p1[1] > p2[1] ? 1 : p2[1] > p1[1] ? -1 : p1[0] > p2[0] ? 1 : -1;
+        }
+    }
+
+    // sort 2d points in y decending and x decending form
+    sort2Dpoints(array2D) {
+        return array2D.sort(this.compare2DPoints);
+    }
+
     /** ============================================ Edges ========================================= */
 
     // assume point p1 and p2 exist, add edge to them
@@ -133,5 +159,14 @@ class gridData {
                 "<br>"
             );
         });
+    }
+
+
+    /** ============================================ Vertex ========================================= */
+
+    // return (point, edge) in zip version like in python3
+    zipPointEdge() {
+        var p2d = this.sort2Dpoints(this.points2D()); // sorted array of points in [x, y] format
+        document.write(p2d);
     }
 }
