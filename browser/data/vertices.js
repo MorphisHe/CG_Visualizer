@@ -14,5 +14,9 @@ class vertices{
     addVertex(v){
         this.allVertices.push(v);
     }
+
+    removeVertex(v){
+        delete this.allVertices[v.vIndex-1];
+    }
     
 }
